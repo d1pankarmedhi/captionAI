@@ -5,9 +5,21 @@ Using [Florence-2](https://huggingface.co/microsoft/Florence-2-large), a lightwe
 
 With the compression methods, such as quantization, the model performance and system requirements can be reduced drastically. From an original model footprint of `1084 MB` the model can be compressed to around `615 MB` with **4-bit** quantization. 
 
+
+Quantization format comparison for image input and `'<MORE_DETAILED_CAPTION>'` prompt.
+
+| | Float 32 | 8 bit Q | 4 bit Q |
+|---| ---|---|---|
+|Latency| 2.8 sec | 26.2 sec | 7.36 sec |
+|Size (MB)|3291.8|958.56|614.88|
+
+4 bit Quantization hits the sweet spot, both in terms of size, memory usage and latency. 
+
+
 Quantization for the model is done using `bitesandbytes` for quick and easy implementation. 
 
 ```python
+# BitesandBytes for quantization
 bnb_config = BitsAndBytesConfig(
      load_in_4bit=True,
      bnb_4bit_compute_dtype=torch.float16,
@@ -29,7 +41,7 @@ processor = AutoProcessor.from_pretrained(
 </div>
 
 
-## Setup environment
+## Setup server
 Follow the given instructions below to setup the project on local for development or to run/test the project on your environment. 
 
 1. Clone the repository
